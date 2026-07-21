@@ -9,6 +9,9 @@ import pandas as pd
 from random import seed
 from faker import Faker
 
+from datetime import datetime
+from config.settings import CUSTOMER_DIR
+
 from config.settings import NUM_CUSTOMERS
 from config.settings import RANDOM_SEED
 from scripts.data_generator.logger import setup_logger
@@ -79,6 +82,21 @@ class CustomerGenerator:
 
         return dataframe
 
+    def export_to_excel(self, customer_df):
+        """
+        Export customer data to Excel.
+        """
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        file_path = CUSTOMER_DIR / f"customers_{timestamp}.xlsx"
+
+        customer_df.to_excel(file_path, index=False, engine="openpyxl")
+
+        logger.info("Customer data exported to %s", file_path)
+
+        return file_path
+
 
 def main():
     generator = CustomerGenerator()
@@ -86,6 +104,8 @@ def main():
     customers = generator.generate_dataset()
 
     customer_df = generator.create_dataframe(customers)
+
+    generator.export_to_excel(customer_df)
 
     logger.info("Preview of customer data:\n%s", customer_df.head())
 
