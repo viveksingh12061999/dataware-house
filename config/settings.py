@@ -29,7 +29,7 @@ LOG_DIR = BASE_DIR / "logs"
 
 # Dataset Sizes
 
-NUM_CUSTOMERS = 10000
+NUM_CUSTOMERS = 10
 
 NUM_PRODUCTS = 2000
 
